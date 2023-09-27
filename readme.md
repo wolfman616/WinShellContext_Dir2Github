@@ -22,6 +22,8 @@ something along the lines of autohotkey.exe "C:\Users\ninj\Desktop11\send2Github
 
 ![image](https://github.com/wolfman616/WinShellContext_Dir2Github/assets/62726599/1ead68dc-b09c-442b-b80d-fac1ac67477e)
 
+![image](https://github.com/wolfman616/WinShellContext_Dir2Github/assets/62726599/871c8276-8742-431f-ac2c-cb77f2f17c14)
+
 ![image](https://github.com/wolfman616/WinShellContext_Dir2Github/assets/62726599/1da450cb-c021-4d7c-945a-ab0586a35f59)
 
 ![image](https://github.com/wolfman616/WinShellContext_Dir2Github/assets/62726599/442cc096-c6b3-4e5d-a8c4-47a7293639dd)

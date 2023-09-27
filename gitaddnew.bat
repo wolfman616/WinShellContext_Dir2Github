@@ -34,10 +34,9 @@ git add .
 git commit -m %commitMsg%
 git push --set-upstream origin master 
 git status
-timeout /t 4 /nobreak > nul
+timeout /t 8 /nobreak > nul
 exit 0
 rem if there is a bad status warn and stop
 rem else
-
 
 

@@ -20,7 +20,9 @@ if "%~1" == "" (
     set commitMsg=%~1
 )
 git commit -m %commitMsg%
-git push origin  --force
+git push origin master
+git status
+git pull origin master
 git status
 timeout /t 4 /nobreak > nul
 exit 0

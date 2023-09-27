@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 choice /C YN /M "Do you want to proceed?"
 if !errorlevel! equ 1 (
 	echo Proceeding...
-	rem Add your code to execute when the user selects "Y" here
+	REM Add your code to execute when the user selects "Y" here
 ) else (
 	echo Exiting...
 	timeout /t 4 /nobreak > nul
@@ -27,6 +27,7 @@ if "%~2" == "" (
 ) else (
 	set commitMsg=%~2
 )
+REM requires Github terminal to create fresh repo with gh https://github.com/settings/tokens
 gh repo create %repoName% --public
 git init
 git remote add origin https://github.com/wolfman616/%repoName%

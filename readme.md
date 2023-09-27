@@ -18,6 +18,8 @@ requires gitghub ssh access key setup
 
 requires Github terminal to create fresh repo
 
+something along the lines of autohotkey.exe "C:\Users\ninj\Desktop11\send2Github.ahk" "%V"
+
 ![image](https://github.com/wolfman616/WinShellContext_Dir2Github/assets/62726599/1ead68dc-b09c-442b-b80d-fac1ac67477e)
 
 ![image](https://github.com/wolfman616/WinShellContext_Dir2Github/assets/62726599/1da450cb-c021-4d7c-945a-ab0586a35f59)

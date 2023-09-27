@@ -16,7 +16,13 @@ requires gitghub api key
 
 requires gitghub ssh access key setup
 
-requires Github terminal to create fresh repo
+requires Github terminal to create fresh repo 
+
+https://cli.github.com/ 
+
+https://github.com/settings/tokens
+
+https://github.com/settings/keys
 
 something along the lines of autohotkey.exe "C:\Users\ninj\Desktop11\send2Github.ahk" "%V"
 

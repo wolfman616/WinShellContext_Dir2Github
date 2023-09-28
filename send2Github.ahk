@@ -17,35 +17,21 @@ ListLines,On
 onexit,exit
 OnMessage(0x6,"onActiv8")
 OnMessage(0x404,"AHK_NOTIFYICON")
+if(!a_args[1]) ;(!a_args[1]? exitapp())
+	exitapp()	; targetDir:= "C:\Users\ninj\Desktop11\Icon_2_cmd.exe.ps1"
 
-( !a_args[1]? exitapp() : targetDir:= a_args[1] )
+targetDir:= a_args[1]
 
 SplitPath,targetDir,repoName
 
 if(fileexist(targetDir . "\.git")) {
-	if (instr(stdout:=RunCom(stt:="cd /d " . targetDir . " & git init & git fetch & git status"), "Your branch is ahead")) {
-		if(commitmsgRequest()) {
-			msgbox % commitMessage:= commitmsgGet() ; (!commitMessage? commitMessage:= "Commit") 
-			Run,%comspec% /c C:\Script\cmd\gitpush.bat %commitMessage% %repoName%,% targetDir ; Execute the Git push script with the commit message as an argument
-		}	else {
-			run,%comspec% /c C:\Script\cmd\gitpush.bat commit %repoName%,% targetDir
-		}
-	} else,if (instr(stdout, "Changes not staged for commit") || instr(stdout, "Changes to be committed")) {
-			commitmsgRequest()
-			(commitMessage:= commitmsgGet())? (): commitMessage:= "comm"
-			; stdout:=RunCom(stt:="cd /d " . targetDir . " && git init && git add . && git commit -m " commitMessage " && git push origin master && git status")
-			msgbox nigger
-						Run,%comspec% /c cmd.exe C:\Script\cmd\gitpush.bat,% targetDir ; Execute the Git push script with the commit message as an argument
-
-			msgbox,0,OK,% stdout,5
-
-	} else,if (instr(stdout, "Your branch is behind")) {
-		msgbox behind
-		stdout:=RunCom(stt:="cd /d " . targetDir . " && git init && git fetch && git pull origin master & git status")
-		;FETCH_HEAD ;Updating	;run,%comspec% /c C:\Script\cmd\gitpush.bat,% targetDir
+	if(commitmsgRequest()) {
+		;msgbox % stdout:=RunCom(stt:="cd /d " . targetDir . " & git init & git fetch & git status")
+		commitMessage:= commitmsgGet() ; (!commitMessage? commitMessage:= "Commit") 
+		Run,%comspec% /c C:\Script\cmd\gitpush.bat %commitMessage%,% targetDir ; Execute the Git push script with the commit message as an argument
 	} else {
-		msgbox,0,% "Exiting",% stdout "Repo upto date",3
-		exitapp,
+		;msgbox,% "u chose no" ; User chose not to enter a commit message
+		run,%comspec% /c C:\Script\cmd\gitpush.bat,% targetDir
 	}
 } else {
 	MsgBox,4,% "Release new github repo",% "Do you want to specify a title other than dir name for this Git repo?`n`nPress Yes to enter a new title or No to proceed with: " repoName 
@@ -54,30 +40,30 @@ if(fileexist(targetDir . "\.git")) {
 			,Enter repo name,Please enter your desired repo name here:,,256 ,108,,,,,Commit
 		(repoNamenew!="")? repoName:= repoNamenew
 	}
-
 	if(commitmsgRequest()) {
 		commitMessage:= commitmsgGet()
 			Run,%comspec% /c C:\Script\cmd\gitaddnew.bat %repoName% %commitMessage%,% targetDir ; Execute the Git push script with the commit message as an argument
+
 	} else,run,%comspec% /c C:\Script\cmd\gitaddnew.bat %repoName%,% targetDir
 } return,
 
 ;='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='='
 
+commitmsgRequest() {
+	local
+	MsgBox,4,Commit description,% "Do you want to specify a commit description for this Git push?`n`nPress Yes to enter a message or No to proceed without a message."
+	IfMsgBox,Yes
+		answer:= true
+	return,answer
+}
+
 RunCom(commandString) {
-global
+local
 	DllCall("AllocConsole")
 	WinHide,% "ahk_id " DllCall("GetConsoleWindow","ptr")
 	shell:= ComObjCreate("WScript.Shell")
 	exec:= shell.Exec(ComSpec " /C " commandString)
 	return,exec.StdOut.ReadAll()
-}
-
-commitmsgRequest() {
-	local
-	MsgBox,4,Commit description,% "Your branch is ahead, Do you want to specify a commit description for this push?`n`nPress Yes to enter a message or No to proceed without a description."
-	IfMsgBox,Yes
-		answer:= True
-	return,answer
 }
 
 commitmsgGet() {

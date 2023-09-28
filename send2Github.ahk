@@ -30,10 +30,12 @@ if(fileexist(targetDir . "\.git")) {
 		}	else {
 			run,%comspec% /c C:\Script\cmd\gitpush.bat commit %repoName%,% targetDir
 		}
-	} else,if (instr(stdout, "Changes not staged for commit")) {
-			if(commitmsgRequest())
+	} else,if (instr(stdout, "Changes not staged for commit") || instr(stdout, "Changes to be committed")) {
+			commitmsgRequest()
 			(commitMessage:= commitmsgGet())? (): commitMessage:= "comm"
-			stdout:=RunCom(stt:="cd /d " . targetDir . " && git init && git add . && git commit -m " commitMessage " && git push origin master && git status")
+			; stdout:=RunCom(stt:="cd /d " . targetDir . " && git init && git add . && git commit -m " commitMessage " && git push origin master && git status")
+						Run,%comspec% /c C:\Script\cmd\gitpush.bat %commitMessage%,% targetDir ; Execute the Git push script with the commit message as an argument
+
 			msgbox,0,OK,% stdout,5
 
 	} else,if (instr(stdout, "Your branch is behind")) {

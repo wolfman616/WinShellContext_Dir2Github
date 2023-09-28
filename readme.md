@@ -11,7 +11,7 @@ it will push-pull on the repo and update the newest files to the repo and dir bi
 if not already a repo dir:
 a new repo will be created after input prompt to specify repoName if desirably different from dirName, else it is the dirName by default which is alldisplayed in messageboxes.
 
-prereq:
+Prereq:
 requires gitghub api key
 
 requires gitghub ssh access key setup

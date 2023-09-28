@@ -23,19 +23,25 @@ OnMessage(0x404,"AHK_NOTIFYICON")
 SplitPath,targetDir,repoName
 
 if(fileexist(targetDir . "\.git")) {
-	if (instr(stdout:=RunCom(stt:="cd /d " . targetDir . " && git init && git fetch && git status"), "Your branch is ahead")) {
+	if (instr(stdout:=RunCom(stt:="cd /d " . targetDir . " & git init & git fetch & git status"), "Your branch is ahead")) {
 		if(commitmsgRequest()) {
 			msgbox % commitMessage:= commitmsgGet() ; (!commitMessage? commitMessage:= "Commit") 
 			Run,%comspec% /c C:\Script\cmd\gitpush.bat %commitMessage% %repoName%,% targetDir ; Execute the Git push script with the commit message as an argument
 		}	else {
 			run,%comspec% /c C:\Script\cmd\gitpush.bat commit %repoName%,% targetDir
 		}
+	} else,if (instr(stdout, "Changes not staged for commit")) {
+			if(commitmsgRequest())
+			(commitMessage:= commitmsgGet())? (): commitMessage:= "comm"
+			stdout:=RunCom(stt:="cd /d " . targetDir . " && git init && git add . && git commit -m " commitMessage " && git push origin master && git status")
+			msgbox,0,OK,% stdout,5
+
 	} else,if (instr(stdout, "Your branch is behind")) {
 		msgbox behind
 		stdout:=RunCom(stt:="cd /d " . targetDir . " && git init && git fetch && git pull origin master & git status")
 		;FETCH_HEAD ;Updating	;run,%comspec% /c C:\Script\cmd\gitpush.bat,% targetDir
 	} else {
-		msgbox,0,% "Exiting",% "Repo upto date",3
+		msgbox,0,% "Exiting",% stdout "Repo upto date",3
 		exitapp,
 	}
 } else {
